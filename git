@@ -5,6 +5,8 @@ if [ $ps != "S+" ]; then
 	before_sha=$(git rev-parse --verify HEAD)
 fi
 
+# ** Change the path to your original git **
+# /usr/bin/git $@
 /usr/bin/git $@
 
 if [ $ps != "S+" ]; then
