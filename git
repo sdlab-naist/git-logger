@@ -1,0 +1,14 @@
+#!/bin/sh
+ps=$(ps -o stat= -p $PPID)
+
+if [ $ps != "S+" ]; then
+	before_sha=$(git rev-parse --verify HEAD)
+fi
+
+/usr/bin/git $@
+
+if [ $ps != "S+" ]; then
+	timestamp=$(date +"%Y%m%d-%H%M%S")
+	after_sha=$(git rev-parse --verify HEAD)
+	echo "$timestamp, $@, $before_sha, $after_sha, $(pwd)" >> $HOME/.git_history
+fi
