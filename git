@@ -10,5 +10,5 @@ fi
 if [ $ps != "S+" ]; then
 	timestamp=$(date +"%Y%m%d-%H%M%S")
 	after_sha=$(git rev-parse --verify HEAD)
-	echo "$timestamp, $@, $before_sha, $after_sha, $(pwd)" >> $HOME/.git_history
+	echo "$timestamp, $(pwd), $@, $before_sha, $after_sha" >> $HOME/.git_history
 fi
