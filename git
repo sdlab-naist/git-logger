@@ -1,12 +1,18 @@
 #!/bin/sh
-ps=$(ps -o stat= -p $PPID)
 
-if [ $ps != "S+" ]; then
+# ** Change the path to your original git **
+git="/usr/bin/git"
+#
+
+ps=$(ps -o stat= -p $PPID)
+check=$($git rev-parse --is-inside-work-tree)
+
+if [ $ps != "S+" ] && [ $check == "true" ]; then
 	timestamp=$(date +"%Y%m%d-%H%M%S")
-	before_sha=$(git rev-parse --verify HEAD)
+	before_sha=$($git rev-parse --verify HEAD)
 	echo LOG,"$timestamp,$(pwd),$@,$before_sha" >> $HOME/.git_history
 fi
 
-# ** Change the path to your original git **
-# /usr/bin/git $@
-/usr/bin/git $@
+if [ $check == "true" ]; then
+	$git $@
+fi
