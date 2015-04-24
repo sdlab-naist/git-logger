@@ -1,0 +1,8 @@
+#!/bin/sh
+timestamp=$(date +"%Y%m%d-%H%M%S")
+echo REWRITE,"$timestamp,$*" >> $HOME/.git_history
+echo START_INPUT >> $HOME/.git_history
+while read i; do
+	echo ${i} >> $HOME/.git_history
+done
+echo END_INPUT >> $HOME/.git_history
