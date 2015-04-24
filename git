@@ -2,7 +2,9 @@
 ps=$(ps -o stat= -p $PPID)
 
 if [ $ps != "S+" ]; then
+	timestamp=$(date +"%Y%m%d-%H%M%S")
 	before_sha=$(git rev-parse --verify HEAD)
+	echo START,"$timestamp,$(pwd),$@,$before_sha" >> $HOME/.git_history
 fi
 
 # ** Change the path to your original git **
@@ -12,5 +14,5 @@ fi
 if [ $ps != "S+" ]; then
 	timestamp=$(date +"%Y%m%d-%H%M%S")
 	after_sha=$(git rev-parse --verify HEAD)
-	echo "$timestamp, $(pwd), $@, $before_sha, $after_sha" >> $HOME/.git_history
+	echo END,"$timestamp,$(pwd),$@,$after_sha" >> $HOME/.git_history
 fi
