@@ -1,4 +1,4 @@
 #!/bin/sh
 timestamp=$(date +"%Y%m%d-%H%M%S")
-sha="git rev-parse --verify HEAD"
+sha=$(git rev-parse --verify HEAD)
 echo COMMIT,"$timestamp,$sha" >> $HOME/.git_history
