@@ -2,23 +2,11 @@
 shellscript and git hook script for tracking git command
 
 ## Install
-1. fix **original git** path at ./git file
-```
-<path of your original git> $@
-```
-1. allow git scripts
-```
-chmod +x ./git
-```
-1. allow git scripts
+1. Copy ./git file to /usr/local/bin  
 ```
 cp ./git /usr/local/bin/
 ```
-1. allow hook scripts
+1. Import git hook script to git directory  
 ```
-chmod +x hooks/*
-```
-1. copy hook scripts to .git/hook
-```
-cp hooks/* .git/hooks
+sh import.sh
 ```
