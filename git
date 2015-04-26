@@ -13,4 +13,4 @@ if [ $ps != "S+" ] && [ "$check" == "true" ]; then
 	echo LOG,"$timestamp,$(pwd),$@,$before_sha" >> $HOME/.git_history
 fi
 
-$git $@
+$git "$@"
