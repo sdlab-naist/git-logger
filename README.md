@@ -2,9 +2,9 @@
 shellscript and git hook script for tracking git command
 
 ## Install
-1. Copy ./git file to /usr/local/bin  
+1. Add a directory path into your .zshrc or .bashrc
 ```
-cp ./git /usr/local/bin/
+export PATH /path/to/git_tracker/bin:$PATH
 ```
 1. Import git hook script to git directory  
 ```
