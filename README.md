@@ -8,5 +8,5 @@ cp ./git /usr/local/bin/
 ```
 1. Import git hook script to git directory  
 ```
-sh import.sh
+sh import.sh <path_of_your_git_repo>
 ```
