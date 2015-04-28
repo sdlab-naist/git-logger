@@ -5,7 +5,7 @@ if [ $# == 2 ] && [ "$1" == "install" ]; then
 	path="${arg%/}"
 	git_path=$(eval cd "$path";command git rev-parse --git-dir 2> /dev/null)
 	if [[ ! -z $git_path ]]; then
-		eval cp $(echo $(cd $(dirname $0);pwd))/hooks/* $path/.git/hooks/
+		eval cp $(echo $(cd $(dirname $0);cd ..;pwd))/etc/git-logger-hooks/* $path/.git/hooks/
 	fi
 else
 	echo "usage: install path/to/git/repo"
