@@ -1,0 +1,17 @@
+preexec(){
+	arg="$@"
+	check=`command git rev-parse --is-inside-work-tree 2> /dev/null`
+
+	if [[ $arg =~ ^git\  ]] && [ "$check" = "true" ]; then
+		timestamp=`date +"%Y%m%d-%H%M%S"`
+		before_sha=`command git rev-parse --verify HEAD`
+		echo LOG,"$timestamp,${PWD},$arg,$before_sha" >> $HOME/.git_history
+	fi
+}
+preexec_invoke_exec(){
+    [ -n "$COMP_LINE" ] && return
+    [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return
+    local this_command=`history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g"`;
+    preexec "$this_command"
+}
+trap 'preexec_invoke_exec' DEBUG
