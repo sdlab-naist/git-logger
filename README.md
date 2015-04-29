@@ -1,12 +1,17 @@
-# git-tracker
-shellscript and git hook script for tracking git command
+# git-logger
+shellscript and git hook script for logging git command
 
 ## Install
-1. Add a directory path into your .zshrc or .bashrc
+1. Install git command logger  
+  * Copy all script from for-bash/for-zsh file and copy to .bashrc/.zshrc (depends on which shell you are using)
+1. Import hook scripts
+  * from Homebrew  
 ```
-export PATH=/path/to/git_logger/bin:$PATH
+brew tap sdlab-naist/logger  
+brew install git-logger  
+git logger install path/to/git/repo
 ```
-1. Import git hook script to git directory  
+  * from shellscript  
 ```
 sh bin/git-logger install path/to/git/repo
 ```
