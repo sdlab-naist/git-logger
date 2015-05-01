@@ -1,5 +1,11 @@
 preexec(){
 	arg="$@"
+	arg_type=`type $arg 2> /dev/null`
+	if [[ ! -z $arg_type ]] && [[ $arg_type =~ "is aliased to" ]]; then
+		remove_alias=`echo $arg_type | sed -e "s/^.* is aliased to //"`
+		arg=${remove_alias:1:${#remove_alias}-2}
+	fi
+
 	check=`command git rev-parse --is-inside-work-tree 2> /dev/null`
 
 	if [[ $arg =~ ^git\  ]] && [ "$check" = "true" ]; then
