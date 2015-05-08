@@ -7,7 +7,7 @@ shellscript and git hook script for logging git command
 1. Import hook scripts
   * from Homebrew  
 ```
-brew tap sdlab-naist/logger  
+brew tap sdlab-naist/formulas  
 brew install git-logger  
 git logger install path/to/git/repo
 ```
