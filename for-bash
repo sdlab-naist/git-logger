@@ -7,11 +7,12 @@ preexec(){
 	fi
 
 	check=`command git rev-parse --is-inside-work-tree 2> /dev/null`
+	root_path=`command git rev-parse --show-toplevel`
 
 	if [[ $arg =~ ^git\  ]] && [ "$check" = "true" ]; then
 		timestamp=`date +"%Y%m%d-%H%M%S"`
 		before_sha=`command git rev-parse --verify HEAD`
-		echo LOG,"$timestamp,${PWD},$arg,$before_sha" >> $HOME/.git_history
+		echo LOG,"$timestamp,$root_path,${PWD},$arg,$before_sha" >> $HOME/.git_history
 	fi
 }
 preexec_invoke_exec(){
