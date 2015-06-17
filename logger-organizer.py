@@ -28,9 +28,11 @@ with open(history_path) as f:
   for line in f:
     line_array = line.split(",")
     if line_array[0] == "LOG":
+      if len(line_array) == 5:
+        line_array.insert(2, line_array[2])
       output_path = "{0}/{1}.csv".format(output_dir_path, os.path.basename(line_array[2]));
       f = open(output_path,'a')
-      f.write(line)
+      f.write(",".join(line_array))
       f.close()
       last_path = output_path
     elif last_path != "":
