@@ -12,7 +12,7 @@ function preexec_logger(){
 	USER_EMAIL=`command git config user.email`
 
 	if [[ $COMMAND =~ ^git\  ]] && [ `$IS_INSIDE_REPOSITORY` = `true` ]; then
-		echo -n \{\"ts\":$TIMESTAMP,\"type\":\"LOG\",\"command\":\"$COMMAND\",\"user_name\":\"$USER_NAME\",\"user_email\":\"$USER_EMAIL\",\"before_sha\":\"$BEFORE_SHA\",\"root_path\":\"$REPOSITORY_ROOT_BASE_NAME\",\"execute_path\":\"${PWD#$REPOSITORY_ROOT_DIR_NAME/}\"\}, >> $REPOSITORY_ROOT_PATH/.git/.git_history
+		echo \{\"ts\":$TIMESTAMP,\"type\":\"LOG\",\"command\":\"$COMMAND\",\"user_name\":\"$USER_NAME\",\"user_email\":\"$USER_EMAIL\",\"sha\":\"$BEFORE_SHA\",\"root_path\":\"$REPOSITORY_ROOT_BASE_NAME\",\"execute_path\":\"${PWD#$REPOSITORY_ROOT_DIR_NAME/}\"\}, >> $REPOSITORY_ROOT_PATH/.git/.git_history
 	fi
 }
 
