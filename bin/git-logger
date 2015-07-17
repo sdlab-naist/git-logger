@@ -7,6 +7,7 @@ if [ $# == 2 ] && [ "$1" == "install" ]; then
 	if [[ ! -z $git_path ]]; then
 		cp $(echo $(cd $(dirname $0)/..;pwd))/etc/git-logger-hooks/* $path/.git/hooks/
 	fi
+	echo "git-logger hook script installed"
 else
 	echo "usage: install path/to/git/repo"
 fi
