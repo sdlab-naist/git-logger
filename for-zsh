@@ -1,17 +1,17 @@
 # git-logger
 function preexec_logger(){
+	COMMAND=$3
 	IS_INSIDE_REPOSITORY=`command git rev-parse --is-inside-work-tree 2> /dev/null`
 	REPOSITORY_ROOT_PATH=`command git rev-parse --show-toplevel 2> /dev/null`
-	REPOSITORY_ROOT_BASE_NAME=`basename $REPOSITORY_ROOT_PATH`
-	REPOSITORY_ROOT_DIR_NAME=`dirname $REPOSITORY_ROOT_PATH`
-
-	COMMAND=$3
-	TIMESTAMP=`date +%s`
-	BEFORE_SHA=`command git rev-parse --verify HEAD`
-	USER_NAME=`command git config user.name`
-	USER_EMAIL=`command git config user.email`
 
 	if [[ $COMMAND =~ ^git\  ]] && [ `$IS_INSIDE_REPOSITORY` = `true` ]; then
+		TIMESTAMP=`date +%s`
+		BEFORE_SHA=`command git rev-parse --verify HEAD`
+		USER_NAME=`command git config user.name`
+		USER_EMAIL=`command git config user.email`
+		REPOSITORY_ROOT_BASE_NAME=`basename $REPOSITORY_ROOT_PATH`
+		REPOSITORY_ROOT_DIR_NAME=`dirname $REPOSITORY_ROOT_PATH`
+
 		echo \{\"ts\":$TIMESTAMP,\"type\":\"LOG\",\"command\":\"$COMMAND\",\"user_name\":\"$USER_NAME\",\"user_email\":\"$USER_EMAIL\",\"sha\":\"$BEFORE_SHA\",\"root_path\":\"$REPOSITORY_ROOT_BASE_NAME\",\"execute_path\":\"${PWD#$REPOSITORY_ROOT_DIR_NAME/}\"\}, >> $REPOSITORY_ROOT_PATH/.git/.git_history
 	fi
 }
