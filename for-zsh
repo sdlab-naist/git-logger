@@ -8,9 +8,11 @@ function preexec_logger(){
 	COMMAND=$3
 	TIMESTAMP=`date +%s`
 	BEFORE_SHA=`command git rev-parse --verify HEAD`
+	USER_NAME=`command git config user.name`
+	USER_EMAIL=`command git config user.email`
 
 	if [[ $COMMAND =~ ^git\  ]] && [ `$IS_INSIDE_REPOSITORY` = `true` ]; then
-		echo \{\"ts\":$TIMESTAMP,\"type\":\"LOG\",\"command\":\"$COMMAND\",\"before_sha\":\"$BEFORE_SHA\",\"root_path\":\"$REPOSITORY_ROOT_BASE_NAME\",\"execute_path\":\"${PWD#$REPOSITORY_ROOT_DIR_NAME/}\"\}, >> $REPOSITORY_ROOT_PATH/.git/.git_history
+		echo -n \{\"ts\":$TIMESTAMP,\"type\":\"LOG\",\"command\":\"$COMMAND\",\"user_name\":\"$USER_NAME\",\"user_email\":\"$USER_EMAIL\",\"before_sha\":\"$BEFORE_SHA\",\"root_path\":\"$REPOSITORY_ROOT_BASE_NAME\",\"execute_path\":\"${PWD#$REPOSITORY_ROOT_DIR_NAME/}\"\}, >> $REPOSITORY_ROOT_PATH/.git/.git_history
 	fi
 }
 
