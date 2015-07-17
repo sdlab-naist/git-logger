@@ -1,8 +1,17 @@
 #!/bin/sh
-timestamp=$(date +"%Y%m%d-%H%M%S")
-echo REWRITE,"$timestamp,$*" >> $HOME/.git_history
-echo START_INPUT >> $HOME/.git_history
+REPOSITORY_ROOT_PATH=`command git rev-parse --show-toplevel 2> /dev/null`
+
+OUTPUT=$*
+TIMESTAMP=`date +%s`
+SHA=`command git rev-parse --verify HEAD`
+USER_NAME=`command git config user.name`
+USER_EMAIL=`command git config user.email`
+
+echo \{\"ts\":$TIMESTAMP,\"type\":\"REWRITE\",\"output\":\"$OUTPUT\",\"user_name\":\"$USER_NAME\",\"user_email\":\"$USER_EMAIL\",\"sha\":\"$SHA\",\"details\":\[ >> $REPOSITORY_ROOT_PATH/.git/.git_history
+
+DETAILS=""
 while read i; do
-	echo ${i} >> $HOME/.git_history
+	DETAILS="$DETAILS\"$i\","
 done
-echo END_INPUT >> $HOME/.git_history
+echo ${DETAILS%?} >> $REPOSITORY_ROOT_PATH/.git/.git_history
+echo \]\}, >> $REPOSITORY_ROOT_PATH/.git/.git_history

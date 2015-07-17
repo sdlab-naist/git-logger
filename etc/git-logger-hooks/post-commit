@@ -1,4 +1,9 @@
 #!/bin/sh
-timestamp=$(date +"%Y%m%d-%H%M%S")
-sha=$(git rev-parse --verify HEAD)
-echo COMMIT,"$timestamp,$sha" >> $HOME/.git_history
+REPOSITORY_ROOT_PATH=`command git rev-parse --show-toplevel 2> /dev/null`
+
+TIMESTAMP=`date +%s`
+SHA=`command git rev-parse --verify HEAD`
+USER_NAME=`command git config user.name`
+USER_EMAIL=`command git config user.email`
+
+echo \{\"ts\":$TIMESTAMP,\"type\":\"COMMIT\",\"output\":\"$SHA\",\"user_name\":\"$USER_NAME\",\"user_email\":\"$USER_EMAIL\",\"sha\":\"$SHA\"\}, >> $REPOSITORY_ROOT_PATH/.git/.git_history
