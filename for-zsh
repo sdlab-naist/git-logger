@@ -4,7 +4,7 @@ function preexec_logger(){
 	IS_INSIDE_REPOSITORY=`command git rev-parse --is-inside-work-tree 2> /dev/null`
 	REPOSITORY_ROOT_PATH=`command git rev-parse --show-toplevel 2> /dev/null`
 
-	if [[ $COMMAND =~ ^git\  ]] && [ `$IS_INSIDE_REPOSITORY` = `true` ]; then
+	if [[ $COMMAND =~ ^git\  ]] && [ "$IS_INSIDE_REPOSITORY" = "true" ]; then
 		TIMESTAMP=`date +%s`
 		BEFORE_SHA=`command git rev-parse --verify HEAD`
 		USER_NAME=`command git config user.name`
