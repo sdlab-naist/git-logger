@@ -1,0 +1,18 @@
+#!/bin/sh
+REPOSITORY_ROOT_PATH=`command git rev-parse --show-toplevel 2> /dev/null`
+GIT_HISTORY_PATH=$REPOSITORY_ROOT_PATH/.git/.git_history
+RESULT_JSON_PATH=$REPOSITORY_ROOT_PATH/.git/git_history.json
+POST_URL=http://kataribe-dev.naist.jp:8585/logs
+
+if [ -f $GIT_HISTORY_PATH ]; then
+	LOGS=$(cat $GIT_HISTORY_PATH)
+	echo [${LOGS%?}] > $RESULT_JSON_PATH
+
+	POST_COMMAND=`curl --fail -s -X POST -H "Content-Type: application/json" $POST_URL -d @$RESULT_JSON_PATH 2> /dev/null`
+	if [ ! -z "$POST_COMMAND" ]; then
+		rm -f $GIT_HISTORY_PATH
+	fi
+	rm -f $RESULT_JSON_PATH
+fi
+
+exit 0
