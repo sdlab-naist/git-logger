@@ -32,3 +32,26 @@ preexec_invoke_exec(){
     preexec "$this_command"
 }
 trap 'preexec_invoke_exec' DEBUG
+
+chdir() {
+        local action="$1"; shift
+        case "$action" in
+                # popd needs special care not to pass empty string instead of no args
+                popd) [[ $# -eq 0 ]] && builtin popd || builtin popd "$*" ;;
+                cd|pushd) builtin $action "$*" ;;
+                *) return ;;
+        esac
+
+        IS_INSIDE_REPOSITORY=`command git rev-parse --is-inside-work-tree 2> /dev/null`
+        REPOSITORY_ROOT_PATH=`command git rev-parse --show-toplevel 2> /dev/null`
+        if [ $IS_INSIDE_REPOSITORY ] && [ -e "$REPOSITORY_ROOT_PATH/.git/.git_history" ]; then
+                text=" git-logger is installed"
+        else
+                unset text
+        fi
+        export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]${text} \n\$ "
+}
+alias cd='chdir cd'
+alias pushd='chdir pushd'
+alias popd='chdir popd'
+
