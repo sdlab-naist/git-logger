@@ -69,3 +69,12 @@ chdir() {
 }
 export PROMPT_COMMAND_CHDIR='chdir'
 
+
+nextexec_git_command() {
+	local command=`history 1 | awk '{print $2}'`
+	if [ $command = "git" ]; then
+		# write something here
+		echo $command
+	fi
+}
+export PROMPT_COMMAND_NEXTGITCOMMAND='nextexec_git_command'
