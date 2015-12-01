@@ -22,15 +22,8 @@ function preexec_logger(){
 autoload -Uz add-zsh-hook
 add-zsh-hook preexec preexec_logger
 
-chdir() {
-        local action="$1"; shift
-        case "$action" in
-                # popd needs special care not to pass empty string instead of no args
-                popd) [[ $# -eq 0 ]] && builtin popd || builtin popd "$*" ;;
-                cd|pushd) builtin $action "$*" ;;
-                *) return ;;
-        esac
 
+function chpwd_check_gitlogger() {
         IS_INSIDE_REPOSITORY=`command git rev-parse --is-inside-work-tree 2> /dev/null`
         REPOSITORY_ROOT_PATH=`command git rev-parse --show-toplevel 2> /dev/null`
         if [ $IS_INSIDE_REPOSITORY ] && [ -e "$REPOSITORY_ROOT_PATH/.git/.git_history" ]; then
@@ -41,8 +34,5 @@ chdir() {
 
         export RPROMPT="%F{green}%~%f $text"
 }
-alias cd='chdir cd'
-alias pushd='chdir pushd'
-alias popd='chdir popd'
-
+add-zsh-hook chpwd chpwd_check_gitlogger
 
