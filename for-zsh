@@ -46,3 +46,12 @@ function chpwd_check_gitlogger() {
 }
 add-zsh-hook chpwd chpwd_check_gitlogger
 
+
+function precmd_nextexec_gitcommand() {
+	local command=`fc -l -1 | awk '{print $2}'`
+	if [ "$command" = "git" ]; then
+		# write something here
+		echo $command
+	fi
+}
+add-zsh-hook precmd precmd_nextexec_gitcommand
