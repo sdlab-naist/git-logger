@@ -48,10 +48,16 @@ add-zsh-hook chpwd chpwd_check_gitlogger
 
 
 function precmd_nextexec_gitcommand() {
-	local command=`fc -l -1 | awk '{print $2}'`
-	if [ "$command" = "git" ]; then
+	COMMAND=`fc -l -1 | cut -d " " -f3-`
+	COMMAND_TYPE=`type $COMMAND 2> /dev/null`
+	if [[ ! -z $COMMAND_TYPE ]] && [[ $COMMAND_TYPE =~ "is an alias for" ]]; then
+		REMOVE_ALIAS=`echo $COMMAND_TYPE | sed -e "s/^.* is an alias for //"`
+		COMMAND=${REMOVE_ALIAS:0:${#REMOVE_ALIAS}}
+	fi
+
+	if [[ $COMMAND =~ ^git\  ]]; then
 		# write something here
-		echo $command
+		echo $COMMAND
 	fi
 }
 add-zsh-hook precmd precmd_nextexec_gitcommand
