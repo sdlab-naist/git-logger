@@ -24,15 +24,15 @@ add-zsh-hook preexec preexec_logger
 
 
 function chpwd_check_gitlogger() {
-        IS_INSIDE_REPOSITORY=`command git rev-parse --is-inside-work-tree 2> /dev/null`
-        REPOSITORY_ROOT_PATH=`command git rev-parse --show-toplevel 2> /dev/null`
-        if [ $IS_INSIDE_REPOSITORY ] && [ -e "$REPOSITORY_ROOT_PATH/.git/.git_history" ]; then
-                text=" git-logger is installed"
-        else
-                unset text
-        fi
+	IS_INSIDE_REPOSITORY=`command git rev-parse --is-inside-work-tree 2> /dev/null`
+	REPOSITORY_ROOT_PATH=`command git rev-parse --show-toplevel 2> /dev/null`
+	if [ $IS_INSIDE_REPOSITORY ] && [ -e "$REPOSITORY_ROOT_PATH/.git/.git_history" ]; then
+		text=" git-logger is installed"
+	else
+		unset text
+	fi
 
-        export RPROMPT="%F{green}%~%f $text"
+	export RPROMPT="%F{green}%~%f $text"
 }
 add-zsh-hook chpwd chpwd_check_gitlogger
 
