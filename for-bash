@@ -22,8 +22,9 @@ preexec(){
 		CURRENT_DIR_NAME=`pwd -P`
 		WORK_TREE=`command  git status --porcelain | grep ^' ' | sed s/^' '//g | sed -e s/' '/:/ | sed -e s/' '//g | awk 'BEGIN{FS=":"} {print "{\""$1"\":\""$2"\"},"}' | sed -e '$s/,//g'`
 		INDEX=`command git status --porcelain | grep -v "^[' '|?]" | sed s/' '/:/ | sed s/' '//g | awk 'BEGIN{FS=":"} {print "{\""$1"\":\""$2"\"},"}' | sed -e '$s/,//g'`
+		UNTRACKED_FILE=`command git status --porcelain | grep ^'?' | sed -e s/??// | sed -e s/' '//g | awk '{print "\""$1"\","}' | sed -e '$s/,//g'`
 
-		echo \{\"ts\":$TIMESTAMP,\"type\":\"LOG\",\"command\":\"$COMMAND\",\"user_name\":\"$USER_NAME\",\"user_email\":\"$USER_EMAIL\",\"sha\":\"$BEFORE_SHA\",\"root_path\":\"$REPOSITORY_ROOT_BASE_NAME\",\"execute_path\":\"${CURRENT_DIR_NAME#$REPOSITORY_ROOT_DIR_NAME/}\",\"branch\":\"$CURRENT_BRANCH\",\"remote_branch\":\"$CURRENT_REMOTE_BRANCH\",\"work_tree\":[$WORK_TREE],\"index\":[$INDEX]\}, >> $REPOSITORY_ROOT_PATH/.git/.git_history
+		echo \{\"ts\":$TIMESTAMP,\"type\":\"LOG\",\"command\":\"$COMMAND\",\"user_name\":\"$USER_NAME\",\"user_email\":\"$USER_EMAIL\",\"sha\":\"$BEFORE_SHA\",\"root_path\":\"$REPOSITORY_ROOT_BASE_NAME\",\"execute_path\":\"${CURRENT_DIR_NAME#$REPOSITORY_ROOT_DIR_NAME/}\",\"branch\":\"$CURRENT_BRANCH\",\"remote_branch\":\"$CURRENT_REMOTE_BRANCH\",\"work_tree\":[$WORK_TREE],\"index\":[$INDEX],\"untracked_file\":[$UNTRACKED_FILE]\}, >> $REPOSITORY_ROOT_PATH/.git/.git_history
 	fi
 }
 
