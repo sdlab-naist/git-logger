@@ -8,7 +8,7 @@ if [ -f $GIT_HISTORY_PATH ]; then
 	LOGS=$(cat $GIT_HISTORY_PATH)
 	echo [${LOGS%?}] > $RESULT_JSON_PATH
 
-	POST_COMMAND=`curl --fail --connect-timeout 3 -s -X POST -H "Content-Type: application/json" $POST_URL -d @$RESULT_JSON_PATH 2> /dev/null`
+	POST_COMMAND=`curl --fail --connect-timeout 1 -s -X POST -H "Content-Type: application/json" $POST_URL -d @$RESULT_JSON_PATH 2> /dev/null`
 	if [ ! -z "$POST_COMMAND" ]; then
 		rm -f $GIT_HISTORY_PATH
 	fi
