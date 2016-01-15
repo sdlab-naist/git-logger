@@ -69,3 +69,18 @@ chdir() {
 }
 export PROMPT_COMMAND_CHDIR='chdir'
 
+
+nextexec_git_command() {
+	COMMAND=`fc -l -1 | cut -d " " -f2-`
+	COMMAND_TYPE=`type $COMMAND 2> /dev/null`
+	if [[ ! -z $COMMAND_TYPE ]] && [[ $COMMAND_TYPE =~ "is aliased to" ]]; then
+		REMOVE_ALIAS=`echo $COMMAND_TYPE | sed -e "s/^.* is aliased to //"`
+		COMMAND=${REMOVE_ALIAS:1:${#REMOVE_ALIAS}-2}
+	fi
+
+	if [[ $COMMAND =~ ^git\  ]]; then
+		# write something here
+		echo $COMMAND
+	fi
+}
+export PROMPT_COMMAND_NEXTGITCOMMAND='nextexec_git_command'
